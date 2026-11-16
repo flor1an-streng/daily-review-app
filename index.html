@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101114">
+<meta name="description" content="Dein persönliches Daily Review">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="style.css">
+<title>Daily Review</title>
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <div><div class="eyebrow">DEIN PERSÖNLICHES JOURNAL</div><h1>Daily<span>Review</span></h1></div>
+    <div class="date-pill" id="todayLabel"></div>
+  </header>
+
+  <nav class="tabs" aria-label="Navigation">
+    <button class="tab active" data-view="review">Heute</button>
+    <button class="tab" data-view="calendar">Kalender</button>
+    <button class="tab" data-view="stats">Statistiken</button>
+    <button class="tab" data-view="goals">Ziele</button>
+  </nav>
+
+  <main>
+    <section class="view active" id="view-review">
+      <div class="section-head">
+        <div><div class="eyebrow">TAGESREFLEXION</div><h2 id="reviewHeading">Wie war dein Tag?</h2></div>
+        <input type="date" id="entryDate" aria-label="Datum auswählen">
+      </div>
+      <div class="card">
+        <div class="card-title"><h3>Deine Bewertungen</h3><span class="muted small">1 = schwach · 5 = sehr gut</span></div>
+        <div id="ratings" class="ratings"></div>
+        <div class="overall"><div><div class="eyebrow">TAGESDURCHSCHNITT</div><div class="muted small">Aus deinen Bewertungen</div></div><strong id="overallValue">–<small>/ 5</small></strong></div>
+      </div>
+      <div class="card">
+        <h3>Deine Gedanken</h3>
+        <label for="good">Was lief heute gut?</label><textarea id="good" placeholder="Ein Erfolg, ein schöner Moment ..."></textarea>
+        <label for="improve">Was hätte besser laufen können?</label><textarea id="improve" placeholder="Was möchtest du daraus mitnehmen?"></textarea>
+        <label for="tomorrow">Was nehme ich mir für morgen vor?</label><textarea id="tomorrow" placeholder="Ein konkreter nächster Schritt ..."></textarea>
+        <div class="save-row"><span id="saveStatus" class="muted small">Änderungen werden lokal gespeichert.</span><button class="primary" id="saveBtn">Tag speichern</button></div>
+      </div>
+      <div class="privacy-note">🔒 Deine Einträge bleiben zunächst auf diesem Gerät. Exportiere regelmäßig eine Sicherung.</div>
+    </section>
+
+    <section class="view" id="view-calendar">
+      <div class="section-head"><div><div class="eyebrow">KONSISTENZ</div><h2>Dein Kalender</h2></div></div>
+      <div class="card">
+        <div class="month-nav"><button class="icon-btn" id="prevMonth" aria-label="Vorheriger Monat">‹</button><h3 id="monthTitle"></h3><button class="icon-btn" id="nextMonth" aria-label="Nächster Monat">›</button></div>
+        <div class="calendar-grid weekdays"><span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span></div>
+        <div class="calendar-grid" id="calendarDays"></div>
+        <div class="legend"><span><i class="dot filled"></i> Bewertet</span><span><i class="dot today-dot"></i> Heute</span></div>
+      </div>
+      <div class="card" id="selectedDayCard"><h3>Ausgewählter Tag</h3><p class="muted">Wähle einen Tag im Kalender aus.</p></div>
+    </section>
+
+    <section class="view" id="view-stats">
+      <div class="section-head"><div><div class="eyebrow">RÜCKBLICK</div><h2>Deine Entwicklung</h2></div></div>
+      <div class="stats-grid">
+        <div class="stat-card"><span class="muted small">Bewertete Tage</span><strong id="daysCount">0</strong></div>
+        <div class="stat-card"><span class="muted small">Gesamtdurchschnitt</span><strong id="average">–</strong></div>
+        <div class="stat-card"><span class="muted small">Beste Kategorie</span><strong class="stat-word" id="bestCategory">–</strong></div>
+        <div class="stat-card"><span class="muted small">Aktueller Monat</span><strong id="monthCount">0</strong></div>
+      </div>
+      <div class="card"><div class="card-title"><h3>Verlauf</h3><span class="muted small">Letzte 14 Einträge</span></div><div id="trendChart" class="chart"></div></div>
+      <div class="card"><h3>Durchschnitt je Kategorie</h3><div id="categoryChart" class="bar-chart"></div></div>
+      <div class="card">
+        <div class="card-title"><h3>Gewichtung einstellen</h3><span class="muted small">1 = normal · 3 = wichtig</span></div>
+        <p class="muted small">Lege fest, welche Lebensbereiche stärker in deinen Gesamtdurchschnitt einfließen.</p>
+        <div id="weightSettings" class="weight-settings"></div>
+        <button class="primary" id="saveWeights">Gewichtung speichern</button>
+      </div>
+      <div class="card"><div class="card-title"><h3>Wochenanalyse</h3><span class="muted small">Letzte 7 Tage</span></div>
+        <div class="stats-grid weekly-grid">
+          <div class="stat-card"><span class="muted small">Bewertete Tage</span><strong id="weekDays">0</strong></div>
+          <div class="stat-card"><span class="muted small">Wochenschnitt</span><strong id="weekAverage">–</strong></div>
+        </div>
+        <p id="weekInsight" class="muted small">Deine Wochenanalyse erscheint, sobald du Einträge gespeichert hast.</p>
+      </div>
+      <div class="card"><div class="card-title"><h3>Datensicherung</h3><span class="muted small">Deine Daten gehören dir</span></div><p class="muted small">Exportiere alle Einträge als JSON-Datei oder importiere eine frühere Sicherung.</p><div class="button-row"><button class="secondary" id="exportBtn">Exportieren</button><label class="secondary file-label">Importieren<input type="file" id="importFile" accept="application/json"></label></div></div>
+    </section>
+
+    <section class="view" id="view-goals">
+      <div class="section-head"><div><div class="eyebrow">FORTSCHRITT</div><h2>Deine Ziele</h2></div></div>
+      <div class="card">
+        <h3>Neues Ziel hinzufügen</h3>
+        <p class="muted small">Formuliere ein Ziel, das du regelmäßig verfolgen möchtest.</p>
+        <div class="goal-form"><input id="goalInput" type="text" maxlength="90" placeholder="z. B. 3-mal pro Woche trainieren"><button class="primary" id="addGoal">Hinzufügen</button></div>
+      </div>
+      <div class="card"><div class="card-title"><h3>Meine Ziele</h3><span class="muted small" id="goalCount">0 Ziele</span></div><div id="goalList" class="goal-list"><p class="muted small">Noch keine Ziele angelegt.</p></div></div>
+    </section>
+  </main>
+  <footer>DAILY REVIEW <span>·</span> VERSION 1.0</footer>
+</div>
+<script src="app.js"></script>
+</body></html>
