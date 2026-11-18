@@ -1,4 +1,4 @@
-const CATEGORIES=["Produktivität","Arbeit & Studium","Sport & Bewegung","Ernährung","Schlaf & Erholung","Stimmung"];
+const CATEGORIES=["Produktivität","Arbeit & Studium","Sport & Bewegung","Ernährung","Schlaf & Erholung","Hygiene", "10 Minuten Beschäftigung","Stimmung"];
 const STORE="dailyReview.entries.v1";
 const SETTINGS="dailyReview.settings.v2";
 const GOALS="dailyReview.goals.v1";
